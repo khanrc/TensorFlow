@@ -14,6 +14,12 @@ def read_data():
             ret.append(row)
     return ret
 
+def dense_to_onehot(labels_dense):
+    l1 = (labels_dense == 2)
+    l2 = (labels_dense == 4)
+    labels_onehot = np.array([l1, l2]).T
+    return labels_onehot.astype(int)
+
 # read data
 data = np.array(read_data())
 data = data.astype(int)
@@ -28,9 +34,9 @@ test_data = data[train_size:]
 # print(len(test_data))
 
 train_features = train_data[:, 1:-1]
-train_labels = train_data[:, -1]
+train_labels = dense_to_onehot(train_data[:, -1])
 test_features = test_data[:, 1:-1]
-test_labels = test_data[:, -1]
+test_labels = dense_to_onehot(test_data[:, -1])
 
 
 # TensorFlow - Autoencoders
@@ -79,7 +85,7 @@ y = tf.nn.softmax(tf.matmul(h1, W2) + b2)
 # MLE (negative log-likelihood)
 cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 
-train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+train_step = tf.train.GradientDescentOptimizer(1e-4).minimize(cross_entropy)
 # train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy) # 뭐가 더 좋은지 모르겠음
 
 # accuracy calculation
@@ -90,7 +96,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 # no mini-batch. shotgun gradient descent (because dataset size is small)
 # no dropout => no keen prob
 sess.run(tf.initialize_all_variables())
-for i in range(2000):
+for i in range(5000):
     if i%100 == 0:
         train_accuracy = accuracy.eval(feed_dict={x:train_features, y_: train_labels})
         print "step %d, training accuracy %g" % (i, train_accuracy)
