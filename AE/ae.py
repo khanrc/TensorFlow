@@ -74,6 +74,7 @@ W1 = weight_variable([9, 4])
 b1 = bias_variable([4])
 
 h1 = tf.nn.relu(tf.matmul(x, W1) + b1)
+# h1 = tf.nn.sigmoid(tf.matmul(x, W1) + b1)
 
 # second layer (readout layer - softmax)
 W2 = weight_variable([4, 2])
