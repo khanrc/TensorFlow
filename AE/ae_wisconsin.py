@@ -2,6 +2,11 @@
 import tensorflow as tf
 import numpy as np
 
+"""
+실질적으로 아직까지 그냥 MLP임.
+pre-training이 추가되어야 함.
+"""
+
 
 def read_data():
     ret = []
