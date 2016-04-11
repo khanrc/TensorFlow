@@ -31,7 +31,7 @@ init = tf.initialize_all_variables()
 
 with tf.Session() as sess:
     sess.run(init)
-    for step in xrange(10001):
+    for step in xrange(2001):
         sess.run(train, feed_dict={X: x_data, Y: y_data})
         if step % 50 == 0:
             print step, sess.run(cost, feed_dict={X:x_data, Y:y_data}), sess.run(W)
