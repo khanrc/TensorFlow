@@ -1,3 +1,5 @@
+#coding: utf-8
+
 import tensorflow as tf
 import numpy as np
 
@@ -40,7 +42,12 @@ for i in range(100):
         minus_action_index = (state_index - 1) % NUM_STATES
         plus_action_index = (state_index + 1) % NUM_STATES
 
-        minus_action_state_reward = session.run(output, feed_dict={state: [hot_one_state(minus_action_index)]})[0]
+        minus_action_state_reward_tmp = session.run(output, feed_dict={state: [hot_one_state(minus_action_index)]})
+        # print("---")
+        # print(minus_action_state_reward_tmp)
+        minus_action_state_reward = minus_action_state_reward_tmp[0]
+        # print("---")
+        # print(minus_action_state_reward)
         plus_action_state_reward = session.run(output, feed_dict={state: [hot_one_state(plus_action_index)]})[0]
 
         # these action rewards are the results of the Q function for this state and the actions minus or plus
@@ -48,12 +55,23 @@ for i in range(100):
                           states[plus_action_index] + GAMMA * np.max(plus_action_state_reward)]
         rewards_batch.append(action_rewards)
 
+    # reward_batch 는 Q-function 임. output 이 Q* 이고. 즉 어떤 액션을 했을 때 받을 수 있는 리워드의 값을 예측한 것. 여기서 액션은 +1, -1.
+    # DQN 은 이 state 로부터 reward_batch 를 학습함.
+    # 신박한 아이디어일세. 이게 되나보네
+    # 처음에는 target 값이 이상하니 이상한 값을 학습하겠지만, 시간이 갈수록 Q-function 이 프로파게이션 되어 제대로 된 값을 학습하듯이 얘도 그렇게 된다.
     session.run(train_operation, feed_dict={
         state: state_batch,
         targets: rewards_batch})
 
+
+    print("--------------")
     print([states[x] + np.max(session.run(output, feed_dict={state: [hot_one_state(x)]}))
            for x in range(NUM_STATES)])
+    # print([session.run(output, feed_dict={state: [hot_one_state(x)]}) for x in range(NUM_STATES)])
+    for x in range(NUM_STATES):
+        print session.run(output, feed_dict={state: [hot_one_state(x)]})[0] + states[x]
+
+print(states)
 
 # The final output will look something like this, the values converage about the reward state.
 # [0.16162321, 0.31524473, 0.62262321, 1.2479111, 1.6226232, 1.2479111, 0.62262321, 0.31524473, 0.16162321, 0.031517841]
