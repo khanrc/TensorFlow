@@ -113,14 +113,12 @@ class DeepQPongPlayer(PongPlayer):
 
         if not self._playback_mode:
             # gradually reduce the probability of a random actionself.
-            if self._probability_of_random_action > self.FINAL_RANDOM_ACTION_PROB \
-                    and len(self._observations) > self.OBSERVATION_STEPS:
-                self._probability_of_random_action -= \
-                    (self.INITIAL_RANDOM_ACTION_PROB - self.FINAL_RANDOM_ACTION_PROB) / self.EXPLORE_STEPS
+            if self._probability_of_random_action > self.FINAL_RANDOM_ACTION_PROB and len(self._observations) > self.OBSERVATION_STEPS:
+                self._probability_of_random_action -= (self.INITIAL_RANDOM_ACTION_PROB - self.FINAL_RANDOM_ACTION_PROB) / self.EXPLORE_STEPS
 
-            print("Time: %s random_action_prob: %s reward %s scores differential %s" %
-                  (self._time, self._probability_of_random_action, reward,
-                   sum(self._last_scores) / self.STORE_SCORES_LEN))
+            print("Time: {} random_action_prob: {} reward {} scores differential {} / observation step {}".
+                  format(self._time, self._probability_of_random_action, reward, sum(self._last_scores) / self.STORE_SCORES_LEN, len(self._observations)))
+
 
         return DeepQPongPlayer._key_presses_from_action(self._last_action)
 
@@ -129,6 +127,7 @@ class DeepQPongPlayer(PongPlayer):
 
         if self._playback_mode or (random.random() <= self._probability_of_random_action):
             # choose an action randomly
+            print "[Random action]",
             action_index = random.randrange(self.ACTIONS_COUNT)
         else:
             # choose an action given our last state
