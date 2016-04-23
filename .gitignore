@@ -3,3 +3,5 @@
 *.pyc
 *.zip
 *.gz
+logs/
+deep_q_pong_networks_simple/

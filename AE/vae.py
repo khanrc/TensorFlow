@@ -9,9 +9,9 @@ tf.set_random_seed(0)
 
 # Load MNIST data in a format suited for tensorflow.
 # The script input_data is available under this URL:
-# https://raw.githubusercontent.com/tensorflow/tensorflow/master/tensorflow/g3doc/tutorials/mnist/MNIST_input_data.py
-import MNIST_input_data
-mnist = MNIST_input_data.read_data_sets('MNIST_data', one_hot=True)
+# https://raw.githubusercontent.com/tensorflow/tensorflow/master/tensorflow/g3doc/tutorials/mnist/input_data.py
+import input_data
+mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 n_samples = mnist.train.num_examples
 
 def xavier_init(fan_in, fan_out, constant=1): 
