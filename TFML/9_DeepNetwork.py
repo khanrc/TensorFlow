@@ -66,13 +66,13 @@ b4 = bias_variable([128])
 b5 = bias_variable([10])
 
 L1 = tf.nn.relu(tf.matmul(x, W1) + b1)
-# L1 = tf.nn.dropout(L1, keep_prob)
+L1 = tf.nn.dropout(L1, keep_prob)
 L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
-# L2 = tf.nn.dropout(L2, keep_prob)
+L2 = tf.nn.dropout(L2, keep_prob)
 L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
-# L3 = tf.nn.dropout(L3, keep_prob)
+L3 = tf.nn.dropout(L3, keep_prob)
 L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
-# L4 = tf.nn.dropout(L4, keep_prob)
+L4 = tf.nn.dropout(L4, keep_prob)
 
 # activation = tf.nn.softmax(tf.matmul(x, W) + b)
 activation = tf.matmul(L4, W5) + b5
