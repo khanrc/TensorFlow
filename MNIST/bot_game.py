@@ -31,17 +31,17 @@ def create_network_softmax():
 
 # def create_network_deep():
 # weights
-w1 = weight_variable([784, 300], name='Weight1')
+w1 = weight_variable([784, 256], name='Weight1')
 w1_hist = tf.histogram_summary("weights1", w1)
-b1 = bias_variable([300], name='Bias1')
+b1 = bias_variable([256], name='Bias1')
 b1_hist = tf.histogram_summary("biases1", b1)
 
-w2 = weight_variable([300, 100], name='Weight2')
+w2 = weight_variable([256, 256], name='Weight2')
 w2_hist = tf.histogram_summary("weights2", w2)
-b2 = bias_variable([100], name='Bias2')
+b2 = bias_variable([256], name='Bias2')
 b2_hist = tf.histogram_summary("biases2", b2)
 
-w3 = weight_variable([100, 10], name='Weight3')
+w3 = weight_variable([256, 10], name='Weight3')
 w3_hist = tf.histogram_summary("weights3", w3)
 b3 = bias_variable([10], name='Bias3')
 b3_hist = tf.histogram_summary("biases3", b3)
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         writer = tf.train.SummaryWriter("./logs/mnist_logs", sess.graph_def)
         sess.run(init)
 
-        for step in xrange(1000):
+        for step in xrange(4000):
             batch = mnist.train.next_batch(50)
             sess.run(optimizer, feed_dict={x: batch[0], y:batch[1]})
 
