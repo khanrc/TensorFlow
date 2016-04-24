@@ -32,9 +32,11 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 learning_rate = 0.001
-training_epochs = 25
+training_epochs = 15
 batch_size = 100
 display_step = 1
+
+# training_epochs 를 15정도로 하고 5단으로 했을 때, dropout을 적용하는 것이 0.4%정도 좋은 결과를 낸다.
 
 x = tf.placeholder("float", [None, 784])
 y = tf.placeholder("float", [None, 10])
@@ -47,7 +49,10 @@ keep_prob = tf.placeholder("float")
 
 # W1 = weight_variable([784, 256])
 # W2 = weight_variable([256, 256])
-# W3 = weight_variable([256, 10])
+# W3 = weight_variable([256, 128])
+# W4 = weight_variable([128, 128])
+# W5 = weight_variable([128, 10])
+
 W1 = xavier_variable([784, 256], "W1")
 W2 = xavier_variable([256, 256], "W2")
 W3 = xavier_variable([256, 128], "W3")
