@@ -32,7 +32,7 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 learning_rate = 0.001
-training_epochs = 25
+training_epochs = 15
 batch_size = 100
 display_step = 1
 
@@ -45,9 +45,12 @@ keep_prob = tf.placeholder("float")
 # W3 = tf.Variable(tf.zeros([256, 10]))
 # b = tf.Variable(tf.zeros([10]))
 
-# W1 = weight_variable([784, 256])
-# W2 = weight_variable([256, 256])
-# W3 = weight_variable([256, 10])
+#W1 = weight_variable([784, 256])
+#W2 = weight_variable([256, 256])
+#W3 = weight_variable([256, 128])
+#W4 = weight_variable([128, 128])
+#W5 = weight_variable([128, 10])
+
 W1 = xavier_variable([784, 256], "W1")
 W2 = xavier_variable([256, 256], "W2")
 W3 = xavier_variable([256, 128], "W3")
@@ -61,13 +64,13 @@ b4 = bias_variable([128])
 b5 = bias_variable([10])
 
 L1 = tf.nn.relu(tf.matmul(x, W1) + b1)
-# L1 = tf.nn.dropout(L1, keep_prob)
+L1 = tf.nn.dropout(L1, keep_prob)
 L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
-# L2 = tf.nn.dropout(L2, keep_prob)
+L2 = tf.nn.dropout(L2, keep_prob)
 L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
-# L3 = tf.nn.dropout(L3, keep_prob)
+L3 = tf.nn.dropout(L3, keep_prob)
 L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
-# L4 = tf.nn.dropout(L4, keep_prob)
+L4 = tf.nn.dropout(L4, keep_prob)
 
 # activation = tf.nn.softmax(tf.matmul(x, W) + b)
 activation = tf.matmul(L4, W5) + b5
